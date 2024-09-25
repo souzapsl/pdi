@@ -6,6 +6,7 @@
 **Automated Setup (New Project)**
 
 #### Create your project directory then go into it:
+https://github.com/markshust/docker-magento?tab=readme-ov-file#setup
 
 ```plaintext
 mkdir -p ~/Sites/magento
