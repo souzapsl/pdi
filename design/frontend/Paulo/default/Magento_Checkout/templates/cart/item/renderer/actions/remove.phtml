@@ -1,0 +1,19 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var $block \Magento\Checkout\Block\Cart\Item\Renderer\Actions\Remove */
+
+$_item = $block->getItem();
+?>
+<a href="#"
+   data-bind="click: function(data, event) { return deleteItem(data, event, <?=$_item->getId();?>) }"
+   title="<?= $block->escapeHtml(__('Remove item')) ?>"
+   class="action action-delete"
+   data-post='<?= /* @noEscape */ $block->getDeletePostJson() ?>'>
+    <span>
+        <?= $block->escapeHtml(__('Remove item')) ?>
+    </span>
+</a>

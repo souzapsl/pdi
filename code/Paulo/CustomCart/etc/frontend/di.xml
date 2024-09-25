@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<config>
+    <preference for="Magento\Checkout\Controller\Cart\Delete" type="Paulo\CustomCart\Controller\Cart\Delete"/>
+    <preference for="Magento\Checkout\Controller\Cart\UpdatePost" type="Paulo\CustomCart\Controller\Cart\UpdatePost"/>
+    <preference for="Magento\Checkout\Controller\Cart\UpdateItemQty" type="Paulo\CustomCart\Controller\Cart\UpdateItemQty"/>
+</config>

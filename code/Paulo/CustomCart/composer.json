@@ -1,0 +1,22 @@
+{
+    "name": "paulo/custom-cart",
+    "description": "",
+    "type": "magento2-module",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "Paulo Souza",
+            "email": "gbpaul@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Paulo\\CustomCart\\": ""
+        }
+    }
+}
