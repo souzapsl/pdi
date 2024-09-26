@@ -11,12 +11,14 @@ use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Data\Form\FormKey\Validator;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Store\Model\StoreManagerInterface;
+use Paulo\CustomCart\Helper\Data;
 
 class Delete extends \Magento\Checkout\Controller\Cart\Delete
 {
     /**
      * @param JsonFactory $jsonFactory
      * @param Session $checkoutSession
+     * @param Data $config
      * @param Context $context
      * @param ScopeConfigInterface $scopeConfig
      * @param StoreManagerInterface $storeManager
@@ -26,6 +28,7 @@ class Delete extends \Magento\Checkout\Controller\Cart\Delete
     public function __construct(
         protected JsonFactory $jsonFactory,
         protected Session $checkoutSession,
+        protected Data $config,
         Context $context,
         ScopeConfigInterface $scopeConfig,
         StoreManagerInterface $storeManager,
@@ -50,6 +53,10 @@ class Delete extends \Magento\Checkout\Controller\Cart\Delete
      */
     public function execute(): Redirect|Json
     {
+        if (!$this->config->getEnable()) {
+            return parent::execute();
+        }
+
         $this->checkoutSession->setMessageAjaxUpdateDelete('');
 
         $url = $this->_objectManager->create(\Magento\Framework\UrlInterface::class)->getUrl('*/*');

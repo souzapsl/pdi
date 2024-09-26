@@ -7,9 +7,14 @@
 /** @var $block \Magento\Checkout\Block\Cart\Item\Renderer\Actions\Remove */
 
 $_item = $block->getItem();
+
+$customCartHelper = $this->helper(Paulo\CustomCart\Helper\Data::class);
+$ajaxEnable = $customCartHelper->getEnable();
 ?>
 <a href="#"
-   data-bind="click: function(data, event) { return deleteItem(data, event, <?=$_item->getId();?>) }"
+    <?php if ($ajaxEnable): ?>
+        data-bind="click: function(data, event) { return deleteItem(data, event, <?=$_item->getId();?>) }"
+    <?php endif; ?>
    title="<?= $block->escapeHtml(__('Remove item')) ?>"
    class="action action-delete"
    data-post='<?= /* @noEscape */ $block->getDeletePostJson() ?>'>

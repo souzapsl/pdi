@@ -8,9 +8,13 @@
 
 /**  @var $block \Magento\Checkout\Block\Cart\Grid */
 ?>
-<?php $mergedCells = ($this->helper(Magento\Tax\Helper\Data::class)->displayCartBothPrices() ? 2 : 1); ?>
+<?php
+    $mergedCells = ($this->helper(Magento\Tax\Helper\Data::class)->displayCartBothPrices() ? 2 : 1);
+    $customCartHelper = $this->helper(Paulo\CustomCart\Helper\Data::class);
+    $ajaxEnable = $customCartHelper->getEnable();
+?>
 <?= $block->getChildHtml('form_before') ?>
-<form data-bind="scope: 'ajaxCartComponent'" action="<?= $block->escapeUrl($block->getUrl('checkout/cart/updatePost')) ?>"
+<form <?php if ($ajaxEnable): ?>data-bind="scope: 'ajaxCartComponent'"<?php endif ?> action="<?= $block->escapeUrl($block->getUrl('checkout/cart/updatePost')) ?>"
           method="post"
           id="form-validate"
           data-mage-init='{"Magento_Checkout/js/action/update-shopping-cart":
@@ -66,11 +70,22 @@
                 <span><?= $block->escapeHtml(__('Clear Shopping Cart')) ?></span>
             </button>
         <?php endif ?>
+        <?php if (!$ajaxEnable): ?>
+        <button type="submit"
+                name="update_cart_action"
+                data-cart-item-update=""
+                value="update_qty"
+                title="<?= $block->escapeHtml(__('Update Shopping Cart')) ?>"
+                class="action update">
+            <span><?= $block->escapeHtml(__('Update Shopping Cart')) ?></span>
+        </button>
+        <?php endif ?>
         <input type="hidden" value="" id="update_cart_action_container" data-cart-item-update=""/>
     </div>
 </form>
 <?= $block->getChildHtml('checkout.cart.order.actions') ?>
 <?= $block->getChildHtml('shopping.cart.table.after') ?>
+<?php if ($ajaxEnable): ?>
 <script type="text/x-magento-init">
     {
         "*": {
@@ -84,3 +99,4 @@
         }
     }
 </script>
+<?php endif ?>

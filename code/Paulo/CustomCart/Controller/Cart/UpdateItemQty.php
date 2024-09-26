@@ -12,6 +12,7 @@ use Magento\Framework\Exception\NotFoundException;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Quote\Model\Quote\Item;
 use Psr\Log\LoggerInterface;
+use Paulo\CustomCart\Helper\Data;
 
 class UpdateItemQty extends MagentoUpdateItemQty
 {
@@ -24,6 +25,7 @@ class UpdateItemQty extends MagentoUpdateItemQty
      * @param CheckoutSession $checkoutSession
      * @param Json $json
      * @param LoggerInterface $logger
+     * @param Data $config
      */
     public function __construct(
         protected Context $context,
@@ -31,7 +33,8 @@ class UpdateItemQty extends MagentoUpdateItemQty
         protected FormKeyValidator $formKeyValidator,
         protected CheckoutSession $checkoutSession,
         protected Json $json,
-        protected LoggerInterface $logger
+        protected LoggerInterface $logger,
+        protected Data $config
     ) {
         parent::__construct(
             $context,
@@ -50,6 +53,10 @@ class UpdateItemQty extends MagentoUpdateItemQty
      */
     public function execute(): void
     {
+        if (!$this->config->getEnable()) {
+            parent::execute();
+        }
+
         try {
             $this->validateRequest();
             $this->validateFormKey();

@@ -12,10 +12,12 @@ use Magento\Framework\Data\Form\FormKey\Validator;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Pricing\Helper\Data as PriceHelper;
 use Magento\Store\Model\StoreManagerInterface;
+use Paulo\CustomCart\Helper\Data;
 
 class UpdatePost extends \Magento\Checkout\Controller\Cart\UpdatePost
 {
     /**
+     * @param Data $config
      * @param Context $context
      * @param ScopeConfigInterface $scopeConfig
      * @param Session $checkoutSession
@@ -27,6 +29,7 @@ class UpdatePost extends \Magento\Checkout\Controller\Cart\UpdatePost
      * @param RequestQuantityProcessor $quantityProcessor
      */
     public function __construct(
+        protected Data $config,
         protected Context $context,
         protected ScopeConfigInterface $scopeConfig,
         protected Session $checkoutSession,
@@ -103,6 +106,10 @@ class UpdatePost extends \Magento\Checkout\Controller\Cart\UpdatePost
      */
     public function execute(): mixed
     {
+        if (!$this->config->getEnable()) {
+            return parent::execute();
+        }
+
         $this->checkoutSession->setMessageAjaxUpdateDelete('');
 
         $url = $this->_objectManager->create(\Magento\Framework\UrlInterface::class)->getUrl('*/*');

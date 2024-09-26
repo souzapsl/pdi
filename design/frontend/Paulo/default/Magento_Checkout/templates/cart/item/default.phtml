@@ -16,6 +16,8 @@ $helper = $this->helper(Magento\Msrp\Helper\Data::class);
 $canApplyMsrp = $helper->isShowBeforeOrderConfirm($product) && $helper->isMinimalPriceLessMsrp($product);
 /** @var \Magento\Checkout\Helper\Cart $cartHelper */
 $cartHelper = $this->helper(Magento\Checkout\Helper\Cart::class);
+$customCartHelper = $this->helper(Paulo\CustomCart\Helper\Data::class);
+$ajaxEnable = $customCartHelper->getEnable();
 ?>
 <tbody class="cart item">
 <tr class="item-info">
@@ -100,21 +102,23 @@ $cartHelper = $this->helper(Magento\Checkout\Helper\Cart::class);
             <div class="control qty">
                 <label for="cart-<?= $block->escapeHtmlAttr($_item->getId()) ?>-qty">
                     <span class="label"><?= $block->escapeHtml(__('Qty')) ?></span>
-                    <button
-                        type="button"
-                        id="trash-<?= $block->escapeHtmlAttr($_item->getId()) ?>-qty"
-                        data-bind="click: function(data, event) { return deleteItem(data, event, <?=$_item->getId();?>) }"
-                        style="<?= ($block->getQty() > 1) ? 'display: none' : '';?>"
-                        class="trash-item"
-                        title="<?= $block->escapeHtml(__('Remove item')) ?>"
-                        data-post='<?= /* @noEscape */ $cartHelper->getDeletePostJson($_item) ?>'>
-                    </button>
-                    <button
-                        type="button"
-                        id="decrement-<?= $block->escapeHtmlAttr($_item->getId()) ?>-qty"
-                        data-bind="click: function(data, event) { return decrementCart(data, event, <?=$_item->getId();?>) }"
-                        style="<?= ($block->getQty() == 1) ? 'display: none' : '';?>"
-                    >-</button>
+                    <?php if ($ajaxEnable): ?>
+                        <button
+                            type="button"
+                            id="trash-<?= $block->escapeHtmlAttr($_item->getId()) ?>-qty"
+                            data-bind="click: function(data, event) { return deleteItem(data, event, <?=$_item->getId();?>) }"
+                            style="<?= ($block->getQty() > 1) ? 'display: none' : '';?>"
+                            class="trash-item"
+                            title="<?= $block->escapeHtml(__('Remove item')) ?>"
+                            data-post='<?= /* @noEscape */ $cartHelper->getDeletePostJson($_item) ?>'>
+                        </button>
+                        <button
+                            type="button"
+                            id="decrement-<?= $block->escapeHtmlAttr($_item->getId()) ?>-qty"
+                            data-bind="click: function(data, event) { return decrementCart(data, event, <?=$_item->getId();?>) }"
+                            style="<?= ($block->getQty() == 1) ? 'display: none' : '';?>"
+                        >-</button>
+                    <?php endif; ?>
                     <input id="cart-<?= $block->escapeHtmlAttr($_item->getId()) ?>-qty"
                            data-item-id="<?= $block->escapeHtmlAttr($_item->getId()) ?>"
                            name="cart[<?= $block->escapeHtmlAttr($_item->getId()) ?>][qty]"
@@ -130,11 +134,13 @@ $cartHelper = $this->helper(Magento\Checkout\Helper\Cart::class);
                            data-validate="{required:true,'validate-greater-than-zero':true}"
                            data-item-qty="<?= $block->escapeHtmlAttr($block->getQty()) ?>"
                            data-role="cart-item-qty"/>
-                    <button
-                        type="button"
-                        id="increment-<?= $block->escapeHtmlAttr($_item->getId()) ?>-qty"
-                        data-bind="click: function(data, event) { return incrementCart(data, event, <?=$_item->getId();?>) }"
-                    >+</button>
+                    <?php if ($ajaxEnable): ?>
+                        <button
+                            type="button"
+                            id="increment-<?= $block->escapeHtmlAttr($_item->getId()) ?>-qty"
+                            data-bind="click: function(data, event) { return incrementCart(data, event, <?=$_item->getId();?>) }"
+                        >+</button>
+                    <?php endif; ?>
                 </label>
             </div>
         </div>
