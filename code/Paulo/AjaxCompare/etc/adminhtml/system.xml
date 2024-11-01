@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="paulo" sortOrder="10" translate="label">
+            <label>Paulo</label>
+        </tab>
+        <section id="paulo_ajaxcompare" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Ajax Compare</label>
+            <tab>paulo</tab>
+            <resource>Paulo_AjaxCompare::config_ajaxcompare</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General</label>
+                <field id="enabled" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="limit" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Product limit</label>
+                    <validate>validate-digits validate-digits-range digits-range-0-</validate>
+                    <depends>
+                        <field id="paulo_ajaxcompare/general/enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+
+        </section>
+    </system>
+</config>

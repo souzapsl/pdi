@@ -1,0 +1,13 @@
+{
+  "name": "paulo/ajaxcompare",
+  "description": "Ajax Compare",
+  "type": "magento2-module",
+  "autoload": {
+      "files": [
+          "registration.php"
+      ],
+      "psr-4": {
+          "Paulo\\AjaxCompare\\": ""
+      }
+  }
+}
